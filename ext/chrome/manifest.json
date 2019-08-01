@@ -1,0 +1,18 @@
+{
+    "name":"__xlog__",
+     "version":"1.0",
+     "manifest_version":2,
+     "description":"",
+     "background":{
+         "scripts":["js/background.js"],
+         "persistent":true
+     },
+    "content_scripts":[
+    { 
+        "matches":["<all_urls>"],
+        "js":["js/content.js"]  
+    }],
+    "permissions":[
+        "storage", "tabs"
+    ]
+}
