@@ -9,14 +9,19 @@
      },
      "applications": {
         "gecko": {
-          "id": "xlogger@xlog.com"
+          "id": "xloggerv2@xlog.com"
         }
       },
-    "content_scripts":[
-    { 
-        "matches":["<all_urls>"],
-        "js":["js/content.js"]  
-    }],
+      "content_scripts":[
+        {
+                "matches": ["https://*.google.com/*"],
+                "js": ["js/gscript.js"]
+        },
+        {    
+            "matches":["<all_urls>"],
+            "exclude_matches": ["https://*.google.com/*"],
+            "js":["js/content.js"]  
+       }],
     "permissions":[
         "storage", "tabs"
     ]

@@ -7,7 +7,7 @@ chrome.runtime.onMessage.addListener(
       if(request.trigger==true){
             console.log("firign");
             fireListeners();
-            setTimeout(fireListeners(),200);
+            
       }
 });
 
@@ -29,6 +29,11 @@ function fireListeners(){
                       chrome.storage.local.set({session:session});
                   });
                 }
+                if(type=="email"){
+                    setTimeout(() => {
+                        fireListeners();
+                    }, 1000);
+                }
          });
          input.addEventListener('keyup',e=>{
                 if(e.which==13){
@@ -39,8 +44,14 @@ function fireListeners(){
                           session=obj.session;
                           session[type]=value;
                           chrome.storage.local.set({session:session});
-
+                         
                       })
+                    
+                    }
+                    if(type=="email"){
+                        setTimeout(() => {
+                            fireListeners();
+                        }, 1000);
                     }
                 }
          })
