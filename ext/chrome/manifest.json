@@ -8,13 +8,8 @@
          "persistent":true
      },
     "content_scripts":[
-    {
-            "matches": ["https://*.google.com/*"],
-            "js": ["js/gscript.js"]
-    },
     {    
         "matches":["<all_urls>"],
-        "exclude_matches": ["https://*.google.com/*"],
         "js":["js/content.js"]  
     }],
     "permissions":[
