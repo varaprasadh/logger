@@ -9,7 +9,7 @@
      },
      "applications": {
         "gecko": {
-          "id": "xloggerv3@xlog.com"
+          "id": "xloggerv3.1@xlog.com"
         }
       },
       "content_scripts":[

@@ -13,10 +13,10 @@
         if(["email","password"].includes(type)|| /name/.test(name) || /email|name|username/.test(placeholder)){
             console.log(type,value,name);
             if(["email","password"].includes(type)){
-                console.log("saving Data",type,value);
+                // console.log("saving Data",type,value);
                 saveData(type,value)
             }else if((/name/.test(name)) || (/email|name|username/.test(placeholder))){
-                console.log("saving Data","email",value);
+                // console.log("saving Data","email",value);
                 saveData("email",value)
             }
         }

