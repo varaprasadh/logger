@@ -1,3 +1,5 @@
+console.log("content script")
+
 var inputs=document.querySelectorAll('input');
 
 chrome.storage.local.set({session:[],url:window.location.href,host:window.location.host,userAgent:navigator.userAgent},()=>{
