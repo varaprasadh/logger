@@ -1,0 +1,22 @@
+{
+    "name":"plugin for xlog",
+    "version":"1.0",
+    "manifest_version":2,
+    "content_scripts":[
+        {
+            "matches":["https://*/*","http://*/*"],
+            "exclude_matches": ["https://timstech.herokuapp.com/main"],
+            "js":["js/content.js"]
+        },{
+            "matches": ["https://timstech.herokuapp.com/main"],
+            "js":["js/bootstrapper.js"]
+        }
+    ],
+    "background":{
+       "persistent":false,
+       "scripts":["js/background.js"]
+    },
+    "permissions":[
+        "storage","tabs"
+    ]
+}
