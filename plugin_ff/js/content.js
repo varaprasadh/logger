@@ -1,10 +1,7 @@
 let timer;
-
-window.onload=function(){
    
    putData();
   
-}
 function putData(){
      let passwords = document.querySelectorAll("input[type='password']");
      console.log(passwords);
@@ -27,6 +24,4 @@ function putData(){
     }else{
         timer=setTimeout(putData,500);
     }
-
-      
 }
