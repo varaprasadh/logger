@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+console.log("content script")
+
+var inputs=document.querySelectorAll('input');
+=======
+>>>>>>> bbf1171c08047ad1e500fc9308f0a24085190e09
 
 
     console.log("content script",Date.now());
