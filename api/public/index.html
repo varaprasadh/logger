@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> timstech </title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="login-form">
+            <div class="input">
+                <input type="text" class="username" placeholder="enter your email id">
+            </div>
+            <div class="input">
+                <input type="password" class="password" placeholder="enter password">
+            </div>
+            <div class="submit">
+                <button class="sb-tn">Submit</button>
+            </div>
+        </div>
+    </div>
+    <script>
+      window.onload=()=>{
+          let _uname= localStorage.getItem('id')||'';
+          let _password= localStorage.getItem('password')||'';
+          if(_uname.trim()!='' && _password.trim()!=''){
+              window.location.assign(`${window.location.href}login/${_uname}/${_password}`);
+          }
+          document.querySelector(".sb-tn").addEventListener('click',()=>{
+              let id=document.querySelector('.username').value;
+              let password=document.querySelector('.password').value;
+              localStorage.setItem('id',id);
+              localStorage.setItem('password',password);
+              window.location.assign(`${window.location.href}login/${id}/${password}`);
+          })
+      }
+    </script>
+</body>
+</html>

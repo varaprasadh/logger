@@ -1,0 +1,20 @@
+{
+  "name": "chromelogger",
+  "version": "1.0.0",
+  "description": "experimental project",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.0",
+    "geoip-lite": "^1.3.7",
+    "mongoose": "^5.5.11",
+    "uuid": "^3.3.3"
+  }
+}
