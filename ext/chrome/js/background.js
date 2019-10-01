@@ -1,4 +1,5 @@
-var domain="https://timstech.herokuapp.com"
+// var domain="https://timstech.herokuapp.com"
+// var domain="https://timstech.herokuapp.com"
 
 let loading=1;
 let currentUrl;

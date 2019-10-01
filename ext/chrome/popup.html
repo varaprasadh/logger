@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>timtech</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+   <div class="container">
+       <div>
+           <input type="text" class="uid">
+           <input type="submit" value="SET UID" class="submit">
+       </div>
+   </div>
+</body>
+<script>
+  window.onload=function(){
+      let input=document.querySelector('.uid');
+      let btn=document.querySelector('.submit');
+      let uid_text='';
+      btn.addEventListener('click',(e)=>{
+         uid_text=input.value;
+         console.log(uid_text);
+         //set uid to localstorage
+
+      })
+  }
+</script>
+</html>
